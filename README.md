@@ -102,9 +102,7 @@ thisIsALongNestedMapping[being][set][toSomeValue] = someFunction(argument1,
 Yes:
 
 ```
-event ShortOneArg(
-    address _sender
-);
+event ShortOneArg(address _sender);
 
 event LongAndLotsOfArgs(
     address _sender,
@@ -128,7 +126,9 @@ emit ShortOneArg(sender);
 No:
 
 ```
-event ShortOneArg(address _sender);
+event ShortOneArg(
+    address _sender
+);
 
 event LongAndLotsOfArgs(address _sender,
                         address _recipient,
@@ -337,33 +337,11 @@ Permissible:
 
 These guidelines for function declarations are intended to improve readability. Authors should use their best judgement as this guide does not try to cover all possible permutations for function declarations.
 
-This structure is different for the control structures ```if```, ```else```, ```while```, and ```for```.
-
-The braces denoting the body of a control structure should:
-
-- open on the next line as the declaration
-- close on their own line at the same indentation level as the beginning of the declaration.
-- The opening brace should be proceeded by a single space.
+The structure remains similar for the control structures ```if```, ```else```, ```while```, and ```for```.
 
 Additionally there should be a single space between the control structures if, while, and for and the parenthetic block representing the conditional, as well as a single space between the conditional parenthetic block and the opening brace.
 
-
 Yes:
-
-```
-if (...) 
-{
-  ...
-}
-
-for (...) 
-{
-  ...
-}
-```
-
-No:
-
 ```
 if (...) {
   ...
@@ -376,12 +354,24 @@ for (...) {
   ...;}
 ```
 
+No:
+```
+if (...) 
+{
+  ...
+}
+
+for (...) 
+{
+  ...
+}
+```
+
 For control structures whose body contains a single statement, omitting the braces is NOT ok in any condition.
 
 Yes
 ```
-if (x < 10) 
-{
+if (x < 10) {
     x += 1;
 }
 ```
@@ -400,6 +390,20 @@ if (x < 10)
 For if blocks which have an else or else if clause, the else must be placed on the same line as the if's closing brace. This is an exception compared to the rules of other block-like structures.
 
 Yes
+```
+if (x < 3) {
+    x += 1;
+} else {
+    x -= 1;
+}
+
+if (x < 3)
+    x += 1;
+else
+    x -= 1;
+```
+
+No
 ```
 if (x < 3) 
 {
@@ -422,20 +426,6 @@ else
 {
     x -= 1;
 }
-```
-
-No
-```
-if (x < 3) {
-    x += 1;
-} else {
-    x -= 1;
-}
-
-if (x < 3)
-    x += 1;
-else
-    x -= 1;
 ```
 
 ## Function Declaration
