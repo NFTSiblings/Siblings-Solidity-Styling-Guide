@@ -253,11 +253,11 @@ Avoid extraneous whitespace in the following situations:
 
 Yes:
 
-```boil(egg[1], Coin({ name: "egg" }));```
+```boil(egg[1], Egg({ name: "egg" }));```
 
 No:
 
-```boil( egg[ 1 ], Coin( { name: "egg" } ) );```
+```boil( egg[ 1 ], Egg( { name: "egg" } ) );```
 
 Immediately before a comma, semicolon:
 
