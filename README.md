@@ -21,7 +21,7 @@ Each smart contract and/or Smart Module should be given it's own file.
 
 #### Maximum Line Length
 The maximum length of a line of code should be less than 99 characters.
-The exception to this rule if is the child contract is overriding a parent function and the function exceeds the length limit.
+Child contract that are overriding a parent function that exceeds the length limit should be reformatted to the standard of this document.
 
 #### Wrapped Lines
 Wrapped lines should conform to the following guidelines.
@@ -329,7 +329,7 @@ contract Coin
 }
 ```
 
-When declaring short functions with a single statement, it is permissible to do it on a single line.
+When declaring short functions with a single statement, it is permissible to do it on a single line and have a single space separating the curly brackets when there is a semicolon present.
 
 Permissible:
 
