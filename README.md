@@ -299,7 +299,7 @@ Yes:
 contract Coin {
     struct Bank {
         address owner;
-        uint balance;
+        uint256 balance;
     }
 }
 ```
@@ -311,7 +311,7 @@ contract Coin
 {
     struct Bank {
         address owner;
-        uint balance;
+        uint256 balance;
     }
 }
 ```
@@ -324,7 +324,7 @@ contract Coin
     struct Bank 
     {
         address owner;
-        uint balance;
+        uint256 balance;
     }
 }
 ```
@@ -574,9 +574,9 @@ contract D {
 }
 
 contract A is B, C, D {
-    uint x;
+    uint256 x;
 
-    constructor(uint param1, uint param2, uint param3, uint param4, uint param5)
+    constructor(uint256 param1, uint256 param2, uint256 param3, uint256 param4, uint256 param5)
         B(param1)
         C(param2, param3)
         D(param4)
@@ -607,9 +607,9 @@ contract D {
 }
 
 contract A is B, C, D {
-    uint x;
+    uint256 x;
 
-    constructor(uint param1, uint param2, uint param3, uint param4, uint param5)
+    constructor(uint256 param1, uint256 param2, uint256 param3, uint256 param4, uint256 param5)
     B(param1)
     C(param2, param3)
     D(param4)
@@ -620,9 +620,9 @@ contract A is B, C, D {
 }
 
 contract X is B, C, D {
-    uint x;
+    uint256 x;
 
-    constructor(uint param1, uint param2, uint param3, uint param4, uint param5)
+    constructor(uint256 param1, uint256 param2, uint256 param3, uint256 param4, uint256 param5)
         B(param1)
         C(param2, param3)
         D(param4)
@@ -637,17 +637,17 @@ In variable declarations, do not separate the keyword ```mapping``` from its typ
 
 Yes
 ```
-mapping(uint => uint) map;
+mapping(uint256 => uint) map;
 mapping(address => bool) registeredAddresses;
-mapping(uint => mapping(bool => Data[])) public data;
-mapping(uint => mapping(uint => s)) data;
+mapping(uint256 => mapping(bool => Data[])) public data;
+mapping(uint256 => mapping(uint256 => s)) data;
 ```
 No
 ```
-mapping (uint => uint) map;
+mapping (uint256 => uint) map;
 mapping( address => bool ) registeredAddresses;
-mapping (uint => mapping (bool => Data[])) public data;
-mapping(uint => mapping (uint => s)) data;
+mapping (uint256 => mapping (bool => Data[])) public data;
+mapping(uint256 => mapping (uint256 => s)) data;
 ```
 
 ## Variable Declarations
@@ -656,7 +656,7 @@ Declarations of array variables must not have a space between the type and the b
 Yes
 ```uint[] x;```
 No
-```uint [] x;```
+```uint256 [] x;```
 
 ## Other Recommendations
 Strings must be quoted with double-quotes instead of single-quotes.
@@ -811,6 +811,8 @@ contract Starlings is owned, tokenRecipient {
     //...
 }
 ```
+## uints
+Always specify the type of ```unit``` that is being used. Examples ```uint256```, ```uint8```, etc.
 
 ## Struct Names
 Structs must be named using the CapWords style. Examples: ```MyCoin```, ```Position```, ```PositionXY```.
