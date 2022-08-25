@@ -10,18 +10,38 @@ This guide's intended purpose is to provide the convention for writing solidity 
 ## Code Layout
 
 #### Indentation
-Use 4 spaces per indentation level.
+Use 1 tab space per indentation level.
 
 #### Tabs or Spaces
-Spaces are the preferred indentation method.
+Tabs are the preferred indentation method.
 Mixing tabs and spaces should be avoided.
 
 #### Multiple Contracts and Modules 
 Each smart contract and/or Smart Module should be given it's own file.
 
 #### Maximum Line Length
-The maximum length of a line of code should be less than 99 characters.
-Child contract that are overriding a parent function that exceeds the length limit should be reformatted to the standard of this document.
+The maximum length of a line of code should be less than or equal to 120 characters, including indentations.
+Child contracts that are overriding a parent function that exceeds the length limit should be reformatted to the standard of this document.
+
+#### Comments
+The maximum length of a line of comments should be less than or equal to 65 characters, including indentations.
+
+Comments should use multi-line comment syntax if they span multiple lines.
+
+NATSPEC comments should be indented when spanning multiple lines.
+Example:
+
+```
+/**
+ * @dev Begin the sale. The sale period will automatically
+ *      elapse and conclude.
+ */
+function beginPrivSale() {
+    ...
+}
+```
+
+The purpose of the maximum line length rule is to make your code readable. Developers are encouraged to use their best judgement for line length, but try to adhere to this maximum.
 
 #### Wrapped Lines
 Wrapped lines should conform to the following guidelines.
@@ -146,8 +166,18 @@ emit LongAndLotsOfArgs(sender,
 ## Source File Encoding
 UTF-8 or ASCII encoding is preferred.
 
+## SPDX License Identifier
+The SPDX License Identifier should always be on the first line of the file. Nothing else should go on the first line.
+
+Use the MIT License unless otherwise specified for a particular project.
+
+## Pragma Statement
+The pragma statement should always be on the second line of the file. Nothing else should go on the second line.
+
+Use `pragma solidity ^0.8.0;` unless a higher version is required, or if otherwise specified.
+
 ## Imports
-Import statements should always be placed at the top of the file.
+Import statements should be placed above the contracts and interfaces in a file, but below the SPDX License Identifier and pragma statement.
 
 ## Order of Functions
 Functions must be grouped according to their visibility and ordered:
@@ -247,6 +277,35 @@ contract A
 }
 ```
 
+In addition to the above rule, functions should be categorised and separated by subheadings within the contract.
+
+Subheadings include (in this order):
+- Admin functions
+- Public functions
+- Misc functions
+
+Admin functions subheading:
+Functions categorised here are functions which are public or external, and intended to be used by Admin users of the smart contract.
+e.g. `pause`, `setPrice`, `beginSale`
+
+Public functions subheading:
+Functions categorised here are functions which are public or external, and intended to be used by end users of the smart contract (e.g. token minters).
+e.g. `mint`, `burn`
+
+Misc functions subheading:
+Functions categorised here are functions which are internal or private, OR intended to be called by another smart contract, or external service (such as NFT marketplaces).
+e.g. external functions such as `supportsInterface`, `tokenURI`, or internal functions such as `exists`, `getPackedOwnershipData`
+
+These categories should be separated by a commented subheading in this format:
+
+// ADMIN FUNCTIONS //
+
+// PUBLIC FUNCTIONS //
+
+// MISC FUNCTIONS //
+
+Constructors, enums, global variables, and structs are excluded from these categories and go at the top of the contract above the subheadings.
+
 ## Whitespace in Expressions
 
 Avoid extraneous whitespace in the following situations:
@@ -337,7 +396,7 @@ Permissible:
 
 These guidelines for function declarations are intended to improve readability. Authors should use their best judgement as this guide does not try to cover all possible permutations for function declarations.
 
-The structure remains similar for the control structures ```if```, ```else```, ```while```, and ```for```.
+The structure remains similar for the control structures ```if```, ```else```, ```while```, ```constructor```, and ```for```.
 
 Additionally there should be a single space between the control structures if, while, and for and the parenthetic block representing the conditional, as well as a single space between the conditional parenthetic block and the opening brace.
 
@@ -367,13 +426,12 @@ for (...)
 }
 ```
 
-For control structures whose body contains a single statement, omitting the braces is NOT ok in any condition.
+For control structures whose body contains a single statement, omitting the braces is acceptable if it improves the readability of the code.
 
 Yes
 ```
-if (x < 10) {
-    x += 1;
-}
+if (x < 10) x += 1;
+
 ```
 No
 ```
@@ -397,10 +455,6 @@ if (x < 3) {
     x -= 1;
 }
 
-if (x < 3)
-    x += 1;
-else
-    x -= 1;
 ```
 
 No
@@ -660,8 +714,11 @@ No
 ```
 str = 'bar';
 str = '"Be yourself; everyone else is already taken." -Oscar Wilde';
-Surround operators with a single space on either side.
 ```
+
+Surround operators with a single space on either side.
+
+
 Yes
 ```
 x = 3;
@@ -676,31 +733,17 @@ x = 100/10;
 x += 3+4;
 x |= y&&z;
 ```
-Operators with a higher priority than others can exclude surrounding whitespace in order to denote precedence. This is meant to allow for improved readability for complex statement. You should always use the same amount of whitespace on either side of an operator:
-
-Yes
-```
-x = 2**3 + 5;
-x = 2*y + 3*z;
-x = (a+b) * (a-b);
-```
-No
-```
-x = 2** 3 + 5;
-x = y+z;
-x +=1;
-```
 
 ## Order of Layout
 Layout contract elements in the following order:
 
-Pragma statements
-ASCII Art
-Import statements
-Interfaces
-Libraries
-Interface
-Contract
+- SPDX License Identifier
+- Pragma statements
+- ASCII Art
+- Import statements
+- Interfaces
+- Libraries
+- Contract
 
 Inside each contract use the following order:
 
@@ -811,12 +854,16 @@ Structs must be named using the CapWords style. Examples: ```MyCoin```, ```Posit
 Events must be named using the CapWords style. Examples: ```Deposit```, ```Transfer```, ```Approval```, ```BeforeTransfer```, ```AfterTransfer```.
 
 ## Function Names
-Functions other than constructors must use mixedCase re are public. Examples: ```safeMint```, ```getBalance```, ```transfer```, ```verifyOwner```, ```addMember```, ```changeOwner```. If a function is private or internal and is being called by another function it should use _underscoreMixedCase. Examples: ```_safeMint``` , ```_transfer```.
+Functions other than constructors must use mixedCase are public. Examples: ```safeMint```, ```getBalance```, ```transfer```, ```verifyOwner```, ```addMember```, ```changeOwner```. If a function is private or internal and has a namesake function it should use _underscoreMixedCase. Examples: ```burn / _burn``` , ```beforeTokenTransfer / _beforeTokenTransfer```.
+
+Setter functions which update boolean variables should be named like this:
+`toggleSaleState`, with ‘toggle’ as the prefix
+
+Setter functions which update variables of any type other than boolean should be named like this:
+`setPrices`, with ‘set’ as the prefix
 
 ## Function Argument Names
-Function arguments must use _underscoreMixedCase. Examples: ```_initialSupply```, ```_account```, ```_recipientAddress```, ```_senderAddress```, ```_newOwner```.
-
-When writing library functions that operate on a custom struct, the struct should be the first argument and should always be named self.
+Function arguments should use _underscoreMixedCase if there is a similarly named, globally variable in the contract. Examples: ```_price```, ```_account```, ```_owner```.
 
 ## Local and State Variable Names
 Use mixedCase. Examples: ```totalSupply```, ```remainingSupply```, ```balancesOf```, ```creatorAddress```, ```isPreSale```, ```tokenExchangeRate```.
